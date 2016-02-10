@@ -13,7 +13,6 @@ import javax.faces.context.Flash;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import javax.ws.rs.POST;
 import lombok.Getter;
 import lombok.Setter;
 import sample.javaee.memoapp.ejb.MemoFacade;
