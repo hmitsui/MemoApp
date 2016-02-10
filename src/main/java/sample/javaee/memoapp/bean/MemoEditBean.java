@@ -5,10 +5,20 @@
  */
 package sample.javaee.memoapp.bean;
 
+import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import lombok.Getter;
+import sample.javaee.memoapp.ejb.MemoFacade;
+import sample.javaee.memoapp.entity.Memo;
 
 /**
+ * メモアプリ編集画面の管理Beanクラス
+ * 
+ * 登録済みのメモの編集を行う
  *
  * @author
  */
@@ -17,9 +27,32 @@ import javax.faces.view.ViewScoped;
 public class MemoEditBean {
 
     /**
-     * Creates a new instance of MemoEditBean
+     * 編集するメモのエンティティ
      */
-    public MemoEditBean() {
+    @Getter
+    private Memo editMemo;
+    
+    /**
+     * メモのデータベースアクセス用EJB
+     */
+    @Inject
+    private MemoFacade memoFacade;
+    
+    /**
+     * 画面初期化処理
+     */
+    @PostConstruct
+    public void init(){
+        Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+        Integer key = (Integer) flash.get("editMemoId");
+        editMemo = memoFacade.find(key);
+    }
+    
+    /**
+     * メモの更新
+     */
+    public void updateMemo(){
+        memoFacade.edit(editMemo);
     }
     
 }
